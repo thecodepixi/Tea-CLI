@@ -24,6 +24,7 @@ class Scraper
     end 
 
     def get_teas
+        get_categories 
         Category.all.each do |category|
             page = get_page(category.url)
             page.css("div.productIndexParent").each do |product|
@@ -36,6 +37,7 @@ class Scraper
     end 
 
     def get_tea_info 
+        get_teas 
         Tea.all.each do |tea|
             page = get_page(tea.url)
             tea.description = page.css("div.description div").text.split(' | ')[0] + "."
@@ -43,20 +45,23 @@ class Scraper
             # need to target different class (more specific). this grabs additional items not in block.
             page.css("div.itemBlock").each do |price|
                 item_size = price.css("div.size").text
+                item_size_array = item_size.split(/\W/)
+                item_size_array.map do |int| 
+                    if int == ""
+                        item_size_array.delete(int)
+                    end 
+                end 
+                trimmed_item_size = item_size_array.join(" ")
                 item_price = price.css("div.price").text 
                 # this doesn't work for out of stock items. Need to figure out exactly what to check for and where. 
                 if item_price != "" && !price.css("div.rollover").text.include?("out of stock")
-                    tea.pricing[item_size.split(/\W/).last] = "$" + item_price.split(/\W/).last
+                    tea.pricing[trimmed_item_size] = "$" + item_price.split(/\W/).last
+                elsif price.css("div.rollover").text.include?("out of stock")
+                    tea.pricing = "out of stock"
                 end 
-            end 
-         binding.pry    
+            end  
         end 
     end 
 
 end
 
-# can this just go in bin file??? I think yes? 
-scraper = Scraper.new 
-scraper.get_categories 
-scraper.get_teas 
-scraper.get_tea_info 
