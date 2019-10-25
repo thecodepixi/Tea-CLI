@@ -41,11 +41,13 @@ class Scraper
             tea.description = page.css("div.description div").text.split(' | ')[0] + "."
             tea.ingredients = page.css("h5.titlepadding.contentTitleItalics").text
             page.css("div.itemBlock").each do |price|
-                size = price.css("div.size").text
-                price = price.css("div.price").text 
-                tea.pricing[size.split(/\W/).last] = "$" + price.split(/\W/).last
-                binding.pry 
+                item_size = price.css("div.size").text
+                item_price = price.css("div.price").text 
+                if item_price != "" && !price.css("div.rollover").text.include?("out of stock")
+                    tea.pricing[item_size.split(/\W/).last] = "$" + item_price.split(/\W/).last
+                end 
             end 
+         binding.pry    
         end 
     end 
 
@@ -54,5 +56,4 @@ end
 scraper = Scraper.new 
 scraper.get_categories 
 scraper.get_teas 
-scraper.get_tea_info
-
+scraper.get_tea_info 
