@@ -28,7 +28,10 @@ class Scraper
             page = get_page(category.url)
             page.css("div.productIndexParent").each do |product|
                 new_tea = Tea.new(product.css("h6").text)
+                new_tea.url = "https://www.adagio.com" + product.css("a").attribute("href").value
                 binding.pry 
+                new_tea.category = category 
+                category.teas << new_tea 
             end 
         end 
     end 

@@ -7,11 +7,11 @@ require 'open-uri'
 class Tea 
 
     attr_reader :name
-    attr_accessor :url, :ingredients, :description, :pricing
+    attr_accessor :url, :ingredients, :description, :pricing, :category 
     @@all = [] 
 
     def initialize(name)
-        @name 
+        @name = name
         @@all << self 
         self.ingredients = [] 
         self.pricing = {} 
