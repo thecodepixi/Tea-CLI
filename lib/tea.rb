@@ -21,4 +21,8 @@ class Tea
         @@all
     end 
 
+    def self.all_teas_in(category)
+        self.all.select { |tea| binding.pry }
+    end 
+
 end 

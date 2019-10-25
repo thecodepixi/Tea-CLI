@@ -6,6 +6,8 @@ require 'nokogiri'
 require 'open-uri'
 
 class Scraper
+    puts "started reading scarper"
+
     def get_page(url)
         page = Nokogiri::HTML(open(url))
         page
@@ -21,6 +23,7 @@ class Scraper
             new_category.url = "https://www.adagio.com#{category_url}"
             end 
         end 
+        puts "got categories"
     end 
 
     def get_teas
@@ -33,7 +36,9 @@ class Scraper
                 new_tea.category = category 
                 category.teas << new_tea 
             end 
+            puts "finished getting #{category.name}" 
         end 
+        puts "got tea" 
     end 
 
     def get_tea_info 
@@ -52,16 +57,21 @@ class Scraper
                     end 
                 end 
                 trimmed_item_size = item_size_array.join(" ")
-                item_price = price.css("div.price").text 
+                weird_price = price.css("div.price").text 
+                item_price = weird_price.split(/\W/).last
+                binding.pry 
                 # this doesn't work for out of stock items. Need to figure out exactly what to check for and where. 
-                if item_price != "" && !price.css("div.rollover").text.include?("out of stock")
-                    tea.pricing[trimmed_item_size] = "$" + item_price.split(/\W/).last
+                if item_price.to_i >= 1 && item_price != "" && !price.css("div.rollover").text.include?("out of stock")
+                    tea.pricing[trimmed_item_size] = "$" + item_price
                 elsif price.css("div.rollover").text.include?("out of stock")
                     tea.pricing = "out of stock"
                 end 
             end  
+            puts "finished getting #{tea.name} tea info"
         end 
+        puts "got tea info"
     end 
 
+    puts "finished reading scraper"
 end
 
