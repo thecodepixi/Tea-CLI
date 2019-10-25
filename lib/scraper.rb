@@ -40,9 +40,11 @@ class Scraper
             page = get_page(tea.url)
             tea.description = page.css("div.description div").text.split(' | ')[0] + "."
             tea.ingredients = page.css("h5.titlepadding.contentTitleItalics").text
+            # need to target different class (more specific). this grabs additional items not in block.
             page.css("div.itemBlock").each do |price|
                 item_size = price.css("div.size").text
                 item_price = price.css("div.price").text 
+                # this doesn't work for out of stock items. Need to figure out exactly what to check for and where. 
                 if item_price != "" && !price.css("div.rollover").text.include?("out of stock")
                     tea.pricing[item_size.split(/\W/).last] = "$" + item_price.split(/\W/).last
                 end 
@@ -53,6 +55,7 @@ class Scraper
 
 end
 
+# can this just go in bin file??? I think yes? 
 scraper = Scraper.new 
 scraper.get_categories 
 scraper.get_teas 
