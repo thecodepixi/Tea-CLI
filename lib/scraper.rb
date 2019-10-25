@@ -1,5 +1,5 @@
-require_relative "./tea.rb"
 require_relative "./category.rb"
+require_relative "./tea.rb"
 
 require 'pry'
 require 'nokogiri'
@@ -13,7 +13,7 @@ class Scraper
 
     def get_categories
         page = get_page("https://www.adagio.com/list/best_sellers.html")
-        page.css("div#accountNav.marginLeft.categoryLeft div.hide_768").each_with_index do |category, index|
+        page.css("div#accountNav.marginLeft.categoryLeft div.hide_768").each do |category|
             if category.values != ["breakVerySmall hide_768"] && category.css("a").text != "Advanced Search"
             category_name = category.css("a").text
             category_url = category.css("a").attribute("href").value
@@ -38,3 +38,4 @@ end
 scraper = Scraper.new 
 scraper.get_categories 
 scraper.get_teas 
+
