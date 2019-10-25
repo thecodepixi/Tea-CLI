@@ -29,9 +29,22 @@ class Scraper
             page.css("div.productIndexParent").each do |product|
                 new_tea = Tea.new(product.css("h6").text)
                 new_tea.url = "https://www.adagio.com" + product.css("a").attribute("href").value
-                binding.pry 
                 new_tea.category = category 
                 category.teas << new_tea 
+            end 
+        end 
+    end 
+
+    def get_tea_info 
+        Tea.all.each do |tea|
+            page = get_page(tea.url)
+            tea.description = page.css("div.description div").text.split(' | ')[0] + "."
+            tea.ingredients = page.css("h5.titlepadding.contentTitleItalics").text
+            page.css("div.itemBlock").each do |price|
+                size = price.css("div.size").text
+                price = price.css("div.price").text 
+                tea.pricing[size.split(/\W/).last] = "$" + price.split(/\W/).last
+                binding.pry 
             end 
         end 
     end 
@@ -41,4 +54,5 @@ end
 scraper = Scraper.new 
 scraper.get_categories 
 scraper.get_teas 
+scraper.get_tea_info
 
