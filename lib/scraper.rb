@@ -48,7 +48,7 @@ class Scraper
             tea.description = page.css("div.description div").text.split(' | ')[0] + "."
             tea.ingredients = page.css("h5.titlepadding.contentTitleItalics").text
             # need to target different class (more specific). this grabs additional items not in block.
-            page.css("div.itemBlock").each do |price|
+            page.css("div#pricesDiv.pricesList div.itemBlock").each do |price|
                 item_size = price.css("div.size").text
                 item_size_array = item_size.split(/\W/)
                 item_size_array.map do |int| 
@@ -59,17 +59,17 @@ class Scraper
                 trimmed_item_size = item_size_array.join(" ")
                 weird_price = price.css("div.price").text 
                 item_price = weird_price.split(/\W/).last
-                binding.pry 
                 # this doesn't work for out of stock items. Need to figure out exactly what to check for and where. 
-                if item_price.to_i >= 1 && item_price != "" && !price.css("div.rollover").text.include?("out of stock")
+                if price.css("div.notifyMe").text == "NOTIFY ME" || item_price == ""
+                    tea.pricing[trimmed_item_size] = "unavailable"
+                elsif item_price.to_i >= 1 && item_price != "" 
                     tea.pricing[trimmed_item_size] = "$" + item_price
-                elsif price.css("div.rollover").text.include?("out of stock")
-                    tea.pricing = "out of stock"
                 end 
             end  
             puts "finished getting #{tea.name} tea info"
+            puts "tea options = #{tea.pricing}"
         end 
-        puts "got tea info"
+        puts "got ALL THE TEA info (lol)"
     end 
 
     puts "finished reading scraper"

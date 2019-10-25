@@ -21,8 +21,8 @@ class Tea
         @@all
     end 
 
-    def self.all_teas_in(category)
-        self.all.select { |tea| binding.pry }
+    def self.find_by_name(name)
+        self.all.select {|tea| tea.name == name}
     end 
 
 end 
