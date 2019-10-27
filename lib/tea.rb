@@ -29,4 +29,8 @@ class Tea
         @@all.select {|tea| tea.category.name == tea_category}
     end 
 
+    def self.find_by_ingredient(ingredient)
+        @@all.select { |tea| tea.ingredients.include?(ingredient) } 
+    end 
+
 end 
