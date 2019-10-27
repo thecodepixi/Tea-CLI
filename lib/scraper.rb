@@ -16,7 +16,7 @@ class Scraper
     def get_categories
         page = get_page("https://www.adagio.com/list/best_sellers.html")
         page.css("div#accountNav.marginLeft.categoryLeft div.hide_768").each do |category|
-            if category.values != ["breakVerySmall hide_768"] && category.css("a").text != "Advanced Search"
+            if category.values != ["breakVerySmall hide_768"] && category.css("a").text != "Advanced Search" && Category.all.length < 11 
             category_name = category.css("a").text
             category_url = category.css("a").attribute("href").value
             new_category = Category.new(category_name)
@@ -24,6 +24,7 @@ class Scraper
             end 
         end 
         puts "got categories"
+        binding.pry 
     end 
 
     def get_teas
@@ -31,7 +32,7 @@ class Scraper
         Category.all.each do |category|
             page = get_page(category.url)
                 page.css("div.productIndexParent").each do |product|
-                    if category.teas.length < 11 
+                    if category.teas.length < 10 
                     new_tea = Tea.new(product.css("h6").text)
                     new_tea.url = "https://www.adagio.com" + product.css("a").attribute("href").value
                     new_tea.category = category 
@@ -39,7 +40,6 @@ class Scraper
                     end 
                 end 
             puts "finished getting #{category.name}" 
-            binding.pry 
         end 
         puts "got tea" 
     end 
