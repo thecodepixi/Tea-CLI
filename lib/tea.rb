@@ -25,12 +25,4 @@ class Tea
         self.all.select {|tea| tea.name == name}
     end 
 
-    def self.find_or_create_by_name(name)
-        if !self.all.select {|tea| tea.name == name}
-            self.all.select {|tea| tea.name == name}
-        else 
-            Tea.new(name)
-        end 
-    end 
-
 end 
