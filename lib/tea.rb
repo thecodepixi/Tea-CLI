@@ -22,7 +22,11 @@ class Tea
     end 
 
     def self.find_by_name(name)
-        self.all.select {|tea| tea.name == name}
+        @@all.select {|tea| tea.name == name}
+    end 
+
+    def self.all_teas_in(tea_category)
+        @@all.select {|tea| tea.category.name == tea_category}
     end 
 
 end 

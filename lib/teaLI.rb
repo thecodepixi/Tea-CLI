@@ -4,13 +4,14 @@ require 'pry'
 
 class TeaLI
     
-    def run 
+    def scrape_for_tea  
         scraper = Scraper.new 
         puts "created new scraper"
-        scraper.get_tea_info
+        scraper.get_teas
         puts "cool we're done scraping!"
     end 
+
 end 
 
 tea_CLI = TeaLI.new 
-tea_CLI.run 
+tea_CLI.scrape_for_tea 

@@ -68,9 +68,9 @@ class Scraper
                     tea.pricing[trimmed_item_size] = "$" + item_price
                 end 
             end  
-            puts "finished getting #{tea.name} tea info"
+            puts "got #{tea.name} tea info"
         end 
-        puts "got ALL THE TEA info (lol)"
+        puts "got ALL THE TEA info"
     end 
 
     puts "finished reading scraper"
