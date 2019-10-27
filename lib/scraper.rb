@@ -23,7 +23,7 @@ class Scraper
             new_category.url = "https://www.adagio.com#{category_url}"
             end 
         end 
-        puts "got categories"
+        puts "Gathered tea categories..."
     end 
 
     def get_teas
@@ -38,13 +38,13 @@ class Scraper
                         category.teas << new_tea 
                     end 
                 end 
-            puts "finished getting #{category.name}" 
         end 
-        puts "got tea" 
+        puts "Finished grabbing all the teas..." 
     end 
 
     def get_tea_info 
         get_teas 
+        "Time to check our stock..."
         Tea.all.each do |tea|
             page = get_page(tea.url)
             tea.description = page.css("div.description div").text.split(' | ')[0] + "."
@@ -68,11 +68,8 @@ class Scraper
                     tea.pricing[trimmed_item_size] = "$" + item_price
                 end 
             end  
-            puts "got #{tea.name} tea info"
         end 
-        puts "got ALL THE TEA info"
+        puts "*"
     end 
-
-    puts "finished reading scraper"
 end
 
