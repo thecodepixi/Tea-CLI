@@ -29,6 +29,7 @@ class Scraper
     def get_teas
         get_categories 
         Category.all.each do |category|
+            puts "Checking for #{category.name}"
             page = get_page(category.url)
                 page.css("div.productIndexParent").each do |product|
                     if category.teas.length < 10 
@@ -69,7 +70,6 @@ class Scraper
                 end 
             end  
         end 
-        puts "*"
     end 
 end
 
