@@ -24,7 +24,6 @@ class Scraper
             end 
         end 
         puts "got categories"
-        binding.pry 
     end 
 
     def get_teas
@@ -33,7 +32,8 @@ class Scraper
             page = get_page(category.url)
                 page.css("div.productIndexParent").each do |product|
                     if category.teas.length < 10 
-                    new_tea = Tea.new(product.css("h6").text)
+                    new_tea = Tea.find_or_create_by_name(product.css("h6").text)
+                    binding.pry 
                     new_tea.url = "https://www.adagio.com" + product.css("a").attribute("href").value
                     new_tea.category = category 
                     category.teas << new_tea 
