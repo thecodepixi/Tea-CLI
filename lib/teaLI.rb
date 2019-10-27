@@ -26,6 +26,14 @@ class TeaLI
         end 
     end 
 
+    def display_options 
+        puts "How would you like to search for tea?"
+        puts "1. See all available varieties"
+        puts "2. Search by a specific ingredient"
+        puts "3. Surprise me with a random tea!"
+        puts "Type 1, 2, or 3 and press 'Enter'." 
+    end 
+
 end 
 
 tea_CLI = TeaLI.new 
