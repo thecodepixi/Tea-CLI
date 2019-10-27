@@ -30,13 +30,16 @@ class Scraper
         get_categories 
         Category.all.each do |category|
             page = get_page(category.url)
-            page.css("div.productIndexParent").each do |product|
-                new_tea = Tea.new(product.css("h6").text)
-                new_tea.url = "https://www.adagio.com" + product.css("a").attribute("href").value
-                new_tea.category = category 
-                category.teas << new_tea 
-            end 
+                page.css("div.productIndexParent").each do |product|
+                    if category.teas.length < 11 
+                    new_tea = Tea.new(product.css("h6").text)
+                    new_tea.url = "https://www.adagio.com" + product.css("a").attribute("href").value
+                    new_tea.category = category 
+                    category.teas << new_tea 
+                    end 
+                end 
             puts "finished getting #{category.name}" 
+            binding.pry 
         end 
         puts "got tea" 
     end 
