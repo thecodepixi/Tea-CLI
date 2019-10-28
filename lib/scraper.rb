@@ -50,7 +50,7 @@ class Scraper
             page = get_page(tea.url)
             tea.description = page.css("div.description div").text.split(' | ')[0] + "."
             tea.ingredients = page.css("h5.titlepadding.contentTitleItalics").text
-            # need to target different class (more specific). this grabs additional items not in block.
+            need to target different class (more specific). this grabs additional items not in block.
             page.css("div#pricesDiv.pricesList div.itemBlock").each do |price|
                 item_size = price.css("div.size").text
                 item_size_array = item_size.split(/\W/)
@@ -62,13 +62,14 @@ class Scraper
                 trimmed_item_size = item_size_array.join(" ")
                 weird_price = price.css("div.price").text 
                 item_price = weird_price.split(/\W/).last
-                # this doesn't work for out of stock items. Need to figure out exactly what to check for and where. 
+                # this checks for out of stock or unavailable 
                 if price.css("div.notifyMe").text == "NOTIFY ME" || item_price == ""
                     tea.pricing[trimmed_item_size] = "unavailable"
                 elsif item_price.to_i >= 1 && item_price != "" 
                     tea.pricing[trimmed_item_size] = "$" + item_price
                 end 
             end  
+            puts "Got #{tea.name} tea details"
         end 
     end 
 end

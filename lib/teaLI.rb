@@ -7,7 +7,7 @@ class TeaLI
     def scrape_for_tea  
         puts "Please wait while we gather all the tea info!"
         scraper = Scraper.new 
-        scraper.get_teas
+        scraper.get_tea_info
     end 
 
     def display_categories
@@ -26,10 +26,14 @@ class TeaLI
         end 
     end 
 
+    def choose_random_tea
+        #??? 
+    end 
+
     def display_options 
         puts "How would you like to search for tea?"
-        puts "1. See all available varieties"
-        puts "2. Search by a specific ingredient"
+        puts "1. See all available varieties."
+        puts "2. Search by a specific ingredient."
         puts "3. Surprise me with a random tea!"
         puts "Type 1, 2, or 3 and press 'Enter'." 
     end 
@@ -38,4 +42,3 @@ end
 
 tea_CLI = TeaLI.new 
 tea_CLI.scrape_for_tea 
-tea_CLI.display_category_teas("Black Teas")
