@@ -13,7 +13,8 @@ class Tea
     def initialize(name)
         @name = name
         @@all << self 
-        self.ingredients = [] 
+        self.description = ""
+        self.ingredients = "" 
         self.pricing = {} 
     end 
 
