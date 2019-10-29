@@ -1,4 +1,5 @@
 require_relative "./category.rb"
+require_relative './data.rb'
 
 require 'pry'
 require 'nokogiri'
@@ -27,7 +28,8 @@ class Tea
     end 
 
     # checks whether or not we've already scraped the info about this particular tea object
-    def check_for_tea_info 
+    # returns true if tea info has already been acquired
+    def check_for_tea_info
         self.ingredients.length > 0 && self.description.length > 0 && self.pricing.length > 0 
     end 
 

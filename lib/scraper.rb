@@ -43,12 +43,10 @@ class Scraper
         puts "Finished grabbing all the teas..." 
     end 
 
-    def get_tea_info 
-        Tea.all.each do |tea|
+    def get_tea_info(tea)
             page = get_page(tea.url)
             tea.description = page.css("div.description div").text.split(' | ')[0] + "."
             tea.ingredients = page.css("h5.titlepadding.contentTitleItalics").text
-            need to target different class (more specific). this grabs additional items not in block.
             page.css("div#pricesDiv.pricesList div.itemBlock").each do |price|
                 item_size = price.css("div.size").text
                 item_size_array = item_size.split(/\W/)
@@ -62,25 +60,33 @@ class Scraper
                 item_price = weird_price.split(/\W/).last
                 # this checks for out of stock or unavailable 
                 if price.css("div.notifyMe").text == "NOTIFY ME" || item_price == ""
-                    tea.pricing[trimmed_item_size] = "unavailable"
+                    tea.pricing[trimmed_item_size] = "out of stock"
                 elsif item_price.to_i >= 1 && item_price != "" 
                     tea.pricing[trimmed_item_size] = "$" + item_price
                 end 
             end  
             puts "Got #{tea.name} tea details"
-        end 
     end 
 
-    def get_this_teas_info(tea)
+    def get_this_teas_info(tea_name)
         # when we only need info about a single tea 
+        tea = Tea.find_by_name(tea_name)
+        if !tea[0].check_for_tea_info 
+            get_tea_info(tea[0])
+        else
+            puts "we've already grabbed that info for you"
+        end 
     end 
 
     def get_all_tea_info
         # when we want info about ALL teas 
         # utilize #check_for_tea_info here 
         Tea.all.each do |tea|
-            
+            if !tea[0].check_for_tea_info 
+                get_tea_info(tea)
+            end
         end 
     end 
+    
 end
 

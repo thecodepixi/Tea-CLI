@@ -3,11 +3,21 @@ require_relative './scraper.rb'
 require 'pry'
 
 class TeaLI
-    
+    attr_accessor :scraper 
+
+    def initialize
+        self.scrape_for_tea
+    end 
+   
     def scrape_for_tea  
         puts "Please wait while we gather all the tea info!"
-        scraper = Scraper.new 
-        scraper.get_tea_info
+        @scraper = Scraper.new 
+        @scraper.get_teas
+    end 
+
+    def titleize_name(tea)
+        title = tea.name.split.map(&:capitalize).join(' ')
+        title
     end 
 
     def display_categories
@@ -15,15 +25,31 @@ class TeaLI
         Category.all.each_with_index do |category, index|
             puts "  #{index+1}. #{category.name}"
         end 
-    end   
+    end  
+    
+    def display_tea_info(tea_name)
+        tea = Tea.find_by_name(tea_name)
+        puts "Here are the details for our #{titleize_name(tea[0])} Tea"
+        puts "Description: "
+        puts "  #{tea[0].description}"
+        puts "Ingredients: "
+        puts "  #{tea[0].ingredients.capitalize}"
+        puts "Availability: "
+        tea[0].pricing.each do |size, price|
+            puts "  #{size.capitalize}: #{price}"
+        end 
+    end 
     
     def display_category_teas(category)
         category_teas = Tea.all_teas_in(category)
         puts "Here are all of our #{category}: "
         category_teas.each_with_index do |tea, index|
-            tea_title = tea.name.split.map(&:capitalize).join(' ')
-            puts "  #{index+1}. #{tea_title}"
+            puts "  #{index+1}. #{titleize_name(tea)}"
         end 
+    end 
+
+    def info_for_one_tea(tea)
+        @scraper.get_this_teas_info(tea)
     end 
 
     def choose_random_tea
@@ -41,4 +67,10 @@ class TeaLI
 end 
 
 tea_CLI = TeaLI.new 
-tea_CLI.scrape_for_tea 
+tea_CLI.display_category_teas("Black Teas")
+tea_CLI.info_for_one_tea("irish breakfast")
+tea_CLI.display_tea_info("irish breakfast")
+tea_CLI.info_for_one_tea("earl grey bella luna")
+tea_CLI.display_tea_info("earl grey bella luna")
+
+
