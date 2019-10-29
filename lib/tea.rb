@@ -25,8 +25,9 @@ class Tea
         @@all.select {|tea| tea.name == name}
     end 
 
-    def find_or_scrape_for_info(tea_name) 
-        # to be able to allow user to find specific tea info, depending on if they use the "search by ingredient" option 
+    # checks whether or not we've already scraped the info about this particular tea object
+    def check_for_tea_info 
+        self.ingredients.length > 0 && self.description.length > 0 && self.pricing.length > 0 
     end 
 
     def self.all_teas_in(tea_category)

@@ -44,8 +44,6 @@ class Scraper
     end 
 
     def get_tea_info 
-        get_teas 
-        "Time to check our stock..."
         Tea.all.each do |tea|
             page = get_page(tea.url)
             tea.description = page.css("div.description div").text.split(' | ')[0] + "."
@@ -70,6 +68,18 @@ class Scraper
                 end 
             end  
             puts "Got #{tea.name} tea details"
+        end 
+    end 
+
+    def get_this_teas_info(tea)
+        # when we only need info about a single tea 
+    end 
+
+    def get_all_tea_info
+        # when we want info about ALL teas 
+        # utilize #check_for_tea_info here 
+        Tea.all.each do |tea|
+            
         end 
     end 
 end
