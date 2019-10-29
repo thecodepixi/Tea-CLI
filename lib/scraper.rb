@@ -30,15 +30,12 @@ class Scraper
         Category.all.each do |category|
             page = get_page(category.url)
                 page.css("div.productIndexParent").each do |product|
-                    int = 1 
-                    puts int 
                     if category.teas.length < 10 
                         new_tea = Tea.new(product.css("h6").text)
                         new_tea.url = "https://www.adagio.com" + product.css("a").attribute("href").value
                         new_tea.category = category 
                         category.teas << new_tea 
                     end 
-                    int += 1
                 end 
         end 
         puts "Finished grabbing all the teas..." 
@@ -66,7 +63,6 @@ class Scraper
                     tea.pricing[trimmed_item_size] = "$" + item_price
                 end 
             end  
-            puts "Got #{tea.name} tea details"
     end 
 
     def get_this_teas_info(tea_name)
@@ -79,8 +75,6 @@ class Scraper
     end 
 
     def get_all_tea_info
-        # when we want info about ALL teas 
-        # utilize #check_for_tea_info here 
         Tea.all.each do |tea|
             if !tea.check_for_tea_info 
                 get_tea_info(tea)

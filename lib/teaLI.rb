@@ -15,8 +15,8 @@ class TeaLI
         @scraper.get_teas
     end 
 
-    def titleize_name(tea)
-        title = tea.name.split.map(&:capitalize).join(' ')
+    def titleize(word)
+        title = word.split.map(&:capitalize).join(' ')
         title
     end 
 
@@ -29,7 +29,7 @@ class TeaLI
     
     def display_tea_info(tea_name)
         tea = Tea.find_by_name(tea_name)
-        puts "Here are the details for our #{titleize_name(tea[0])} Tea"
+        puts "Here are the details for our #{titleize(tea[0].name)} Tea"
         puts "Description: "
         puts "  #{tea[0].description}"
         puts "Ingredients: "
@@ -44,7 +44,7 @@ class TeaLI
         category_teas = Tea.all_teas_in(category)
         puts "Here are all of our #{category}: "
         category_teas.each_with_index do |tea, index|
-            puts "  #{index+1}. #{titleize_name(tea)}"
+            puts "  #{index+1}. #{titleize(tea.name)}"
         end 
     end 
 
@@ -63,10 +63,12 @@ class TeaLI
     def surprise_tea 
         surprise = Tea.get_random_tea 
         @scraper.get_this_teas_info(surprise)
-        puts "SURPRISE! You got #{surprise.capitalize}"
+        puts "SURPRISE! You got #{titleize(surprise)} Tea!"
         self.display_tea_info(surprise)
     end 
 
 end 
+
+tea_CLI = TeaLI.new 
 
 

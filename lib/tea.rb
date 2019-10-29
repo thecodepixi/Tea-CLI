@@ -1,5 +1,4 @@
 require_relative "./category.rb"
-require_relative './data.rb'
 
 require 'pry'
 require 'nokogiri'

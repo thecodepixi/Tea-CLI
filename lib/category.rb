@@ -1,5 +1,4 @@
 require_relative "./tea.rb"
-require_relative './data.rb'
 
 require 'pry'
 require 'nokogiri'
