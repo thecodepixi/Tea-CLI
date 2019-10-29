@@ -10,7 +10,7 @@ class TeaLI
     end 
    
     def scrape_for_tea  
-        puts "Please wait while we gather all the tea info!"
+        puts "Loading..."
         @scraper = Scraper.new 
         @scraper.get_teas
     end 
@@ -69,6 +69,4 @@ class TeaLI
 
 end 
 
-tea_CLI = TeaLI.new 
-tea_CLI.surprise_tea
 

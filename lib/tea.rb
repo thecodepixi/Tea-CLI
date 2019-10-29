@@ -43,7 +43,7 @@ class Tea
 
     def self.get_random_tea
         rand_tea  = Tea.all.sample 
-        rand_tea.name  
+        rand_tea.name 
     end 
 
 end 
