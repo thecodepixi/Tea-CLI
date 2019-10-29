@@ -6,7 +6,6 @@ require 'nokogiri'
 require 'open-uri'
 
 class Scraper
-    puts "started reading scarper"
 
     def get_page(url)
         page = Nokogiri::HTML(open(url))
@@ -29,15 +28,17 @@ class Scraper
     def get_teas
         get_categories 
         Category.all.each do |category|
-            puts "Checking for #{category.name}"
             page = get_page(category.url)
                 page.css("div.productIndexParent").each do |product|
+                    int = 1 
+                    puts int 
                     if category.teas.length < 10 
                         new_tea = Tea.new(product.css("h6").text)
                         new_tea.url = "https://www.adagio.com" + product.css("a").attribute("href").value
                         new_tea.category = category 
                         category.teas << new_tea 
                     end 
+                    int += 1
                 end 
         end 
         puts "Finished grabbing all the teas..." 
@@ -70,11 +71,10 @@ class Scraper
 
     def get_this_teas_info(tea_name)
         # when we only need info about a single tea 
+        # utilize check_for_tea_info and find_by_name here 
         tea = Tea.find_by_name(tea_name)
         if !tea[0].check_for_tea_info 
             get_tea_info(tea[0])
-        else
-            puts "we've already grabbed that info for you"
         end 
     end 
 
@@ -82,11 +82,11 @@ class Scraper
         # when we want info about ALL teas 
         # utilize #check_for_tea_info here 
         Tea.all.each do |tea|
-            if !tea[0].check_for_tea_info 
+            if !tea.check_for_tea_info 
                 get_tea_info(tea)
             end
         end 
     end 
-    
+
 end
 

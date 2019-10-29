@@ -52,10 +52,6 @@ class TeaLI
         @scraper.get_this_teas_info(tea)
     end 
 
-    def choose_random_tea
-        #??? 
-    end 
-
     def display_options 
         puts "How would you like to search for tea?"
         puts "1. See all available varieties."
@@ -64,13 +60,15 @@ class TeaLI
         puts "Type 1, 2, or 3 and press 'Enter'." 
     end 
 
+    def surprise_tea 
+        surprise = Tea.get_random_tea 
+        @scraper.get_this_teas_info(surprise)
+        puts "SURPRISE! You got #{surprise.capitalize}"
+        self.display_tea_info(surprise)
+    end 
+
 end 
 
 tea_CLI = TeaLI.new 
-tea_CLI.display_category_teas("Black Teas")
-tea_CLI.info_for_one_tea("irish breakfast")
-tea_CLI.display_tea_info("irish breakfast")
-tea_CLI.info_for_one_tea("earl grey bella luna")
-tea_CLI.display_tea_info("earl grey bella luna")
-
+tea_CLI.surprise_tea
 

@@ -41,4 +41,9 @@ class Tea
         @@all.select { |tea| tea.ingredients.include?(ingredient) } 
     end 
 
+    def self.get_random_tea
+        rand_tea  = Tea.all.sample 
+        rand_tea.name  
+    end 
+
 end 
