@@ -29,15 +29,20 @@ class TeaLI
     
     def display_tea_info(tea_name)
         tea = Tea.find_by_name(tea_name)
+        puts " "
         puts "Here are the details for our #{titleize(tea[0].name)} Tea"
-        puts "Description: "
-        puts "  #{tea[0].description}"
-        puts "Ingredients: "
-        puts "  #{tea[0].ingredients.capitalize}"
-        puts "Availability: "
+        puts "- - - - - - - - - - - - - - - "
+        puts "  Description: "
+        puts "      #{tea[0].description}"
+        puts " "
+        puts "  Ingredients: "
+        puts "      This tea is #{tea[0].ingredients}"
+        puts " "
+        puts "  Purchasing Options: "
         tea[0].pricing.each do |size, price|
-            puts "  #{size.capitalize}: #{price}"
+            puts "      #{size.capitalize}: #{price}"
         end 
+        puts "- - - - - - - - - - - - - - - "
     end 
     
     def display_category_teas(category)
@@ -70,5 +75,7 @@ class TeaLI
 end 
 
 tea_CLI = TeaLI.new 
+tea_CLI.info_for_one_tea('irish breakfast')
+tea_CLI.display_tea_info('irish breakfast')
 
 
