@@ -10,7 +10,7 @@ class TeaLI
     end 
    
     def scrape_for_tea  
-        puts "Loading the TeaLI. Please wait..."
+        puts "Loading your TeaLI session. Please wait..."
         @scraper = Scraper.new 
         @scraper.get_teas
     end 
@@ -26,6 +26,9 @@ class TeaLI
         Category.all.each_with_index do |category, index|
             puts "  #{index+1}. #{category.name}"
         end 
+        puts "Which type of teas would you like to see?"
+        puts "(Ex: Type 'Black Teas' and press ENTER) "
+        puts "(to go back type 'back' and press ENTER)"
     end  
     
     def display_tea_info(tea_name)
@@ -37,7 +40,11 @@ class TeaLI
         puts "      #{tea[0].description}"
         puts " "
         puts "  Ingredients: "
-        puts "      This tea is #{tea[0].ingredients}"
+        if tea[0].ingredients.length > 0 
+            puts "      This tea is #{tea[0].ingredients}"
+        else 
+            puts "      This is a single origin (non-blended) tea."
+        end 
         puts " "
         puts "  Purchasing Options: "
         tea[0].pricing.each do |size, price|
@@ -47,13 +54,15 @@ class TeaLI
     end 
     
     def display_category_teas(category)
-        category_teas = Tea.all_teas_in(category)
+        category_name = titleize(category)
+        category_teas = Tea.all_teas_in(category_name)
         puts "Here are all of our #{category}: "
         category_teas.each_with_index do |tea, index|
             puts "  #{index+1}. #{titleize(tea.name)}"
         end 
         puts " "
         puts "Which tea would you like to know more about?"
+        puts "(to go back type 'back' and press ENTER)"
         puts " "
     end 
 
@@ -67,7 +76,7 @@ class TeaLI
         puts "- - - - - - - - - - - - - - - "
         puts "How would you like to search for tea?"
         puts " "
-        puts "1. See all available varieties."
+        puts "1. See all available tea types."
         puts " "
         puts "2. Search by a specific ingredient."
         puts " "
@@ -91,21 +100,56 @@ class TeaLI
 
         user_input = gets.chomp 
 
-        display_category_teas(user_input)
+        while user_input.downcase != 'exit' 
 
-        user_input = gets.chomp 
+            if user_input.downcase == 'back'
+                call 
+            end 
 
-        info_for_one_tea(user_input.downcase)
+            display_category_teas(user_input)
+            
+            user_input = gets.chomp 
 
-        display_tea_info(user_input.downcase)
+            if user_input.downcase == 'back'
+                run_categories 
+            end 
+
+            info_for_one_tea(user_input.downcase)
+
+            display_tea_info(user_input.downcase)
+
+            puts "to go back to the main menu, type 'back' and hit ENTER"
+            puts "or to exit, type 'exit' and hit enter" 
+        
+            user_input = gets.chomp 
+
+            if user_input.downcase == 'back'
+                call 
+            end 
+
+        end 
+
+        goodbye 
+        
     end 
 
     def call 
         start_options
         user_input = gets.chomp 
-        if user_input.to_i == 1 
-            run_categories
+        while user_input.downcase != 'exit'
+            if user_input.to_i == 1 
+                run_categories
+            end 
         end 
+
+        goodbye 
+
+    end 
+
+    def goodbye 
+        puts " "
+        puts "Thanks for using TeaLI! Happy Sipping!"
+        puts " "
     end 
 
 end 
