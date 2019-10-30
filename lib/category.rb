@@ -20,4 +20,8 @@ class Category
         @@all 
     end 
 
+    def self.check_for_category(category_name)
+        self.all.detect { |cat| cat.name == category_name }
+    end 
+
 end 

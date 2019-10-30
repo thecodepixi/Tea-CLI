@@ -26,10 +26,6 @@ class TeaLI
         Category.all.each_with_index do |category, index|
             puts "  #{index+1}. #{category.name}"
         end 
-        puts "Which type of teas would you like to see?"
-        puts "(Ex: Type 'Black Teas' and press ENTER) "
-        puts "(to go back type 'back' and press ENTER)"
-        puts "(to exit TeaLI, type 'exit' and press ENTER)"
     end  
     
     def display_tea_info(tea_name)
@@ -62,10 +58,6 @@ class TeaLI
             category_teas.each_with_index do |tea, index|
                 puts "  #{index+1}. #{titleize(tea.name)}"
             end 
-            puts " "
-            puts "Which tea would you like to know more about?"
-            puts "(to go back type 'back' and press ENTER)"
-            puts " "
         else
             puts "Sorry that doesn't appear to be a valid category..."
             display_categories
@@ -101,6 +93,7 @@ class TeaLI
         self.display_tea_info(surprise)
     end 
 
+    # THIS DOESN'T WORK UGH
     # def run_categories
     #     display_categories
     #     user_input = nil 
@@ -132,6 +125,47 @@ class TeaLI
     #     end 
     #     goodbye 
     # end 
+
+    # THIS DOESN'T WORK EITHER FML 
+    def run_categories
+        input = nil 
+
+        while input != 'exit' 
+
+            display_categories
+            puts "Which type of teas would you like to see?"
+            puts "(Ex: Type 'Black Teas' and press ENTER) "
+            puts " "
+            puts "(to go back type 'back' and press ENTER)"
+            puts " "
+
+            input = gets.strip.downcase 
+
+            if Category.check_for_category(titleize(input))
+                display_category_teas(titleize(input))
+                puts " "
+                puts "Which tea would you like to know more about?"
+                puts "(to go back type 'back' and press ENTER)"
+                puts " "
+
+                input = gets.strip.downcase
+                
+                if input == 'back'
+                    run_categories
+                else 
+                    info_for_one_tea(input)
+                    display_tea_info(input)
+                end 
+            elsif input == 'back'
+                call 
+            elsif !Category.all.include?(titleize(input)) && input != 'exit' && input != 'back'
+                puts "Sorry, please choose a valid tea type!"
+                puts " "
+                run_categories
+            end 
+        end     
+        end_of_method_options
+    end     
 
     def run_all_info_search 
         puts " "
@@ -189,11 +223,13 @@ class TeaLI
             user_input = gets.strip.downcase
             if user_input == 'menu'
                 call 
-            elsif user_input != 'menu' && user_input.downcase != 'exit' 
+            elsif user_input != 'menu' && user_input != 'exit' 
                 puts "Please choose a valid option..."
                 end_of_method_options 
             end 
         end 
+
+        goodbye 
     end 
 
     def call 
@@ -202,19 +238,17 @@ class TeaLI
             start_options
             user_input = gets.strip.downcase
             if user_input.to_i == 1 
-                run_categories
+                puts "you picked 1"
+                #run_categories
             elsif user_input.to_i == 2 
                 # run_all_info_search
                 # run_ingredient_search
                 puts "you picked 2"
-                call
             elsif user_input.to_i == 3 
                 # surprise_tea 
                 puts "you picked 3"
-                call
             elsif  user_input.to_i != 1 && user_input.to_i != 2 && user_input.to_i != 3 && user_input != 'exit'
                 puts "oops, that's not a valid option!"
-                call 
             end 
         end 
         goodbye
