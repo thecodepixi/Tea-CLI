@@ -22,7 +22,6 @@ class Scraper
             new_category.url = "https://www.adagio.com#{category_url}"
             end 
         end 
-        puts "Gathered tea categories..."
     end 
 
     def get_teas
@@ -38,7 +37,6 @@ class Scraper
                     end 
                 end 
         end 
-        puts "Finished grabbing all the teas..." 
     end 
 
     def get_tea_info(tea)

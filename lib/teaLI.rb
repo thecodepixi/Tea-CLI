@@ -10,7 +10,7 @@ class TeaLI
     end 
    
     def scrape_for_tea  
-        puts "Loading..."
+        puts "Loading the TeaLI. Please wait..."
         @scraper = Scraper.new 
         @scraper.get_teas
     end 
@@ -22,6 +22,7 @@ class TeaLI
 
     def display_categories
         puts "Here are all of our available varieties: "
+        puts " "
         Category.all.each_with_index do |category, index|
             puts "  #{index+1}. #{category.name}"
         end 
@@ -57,12 +58,22 @@ class TeaLI
         @scraper.get_this_teas_info(tea)
     end 
 
-    def display_options 
+    def start_options 
+        puts " "
+        puts "Welcome to the TeaLI! A CLI for finding teas you never knew you needed..."
+        puts "- - - - - - - - - - - - - - - "
         puts "How would you like to search for tea?"
+        puts " "
         puts "1. See all available varieties."
+        puts " "
         puts "2. Search by a specific ingredient."
+        puts " "
         puts "3. Surprise me with a random tea!"
-        puts "Type 1, 2, or 3 and press 'Enter'." 
+        puts " "
+        puts "Type 1, 2, or 3 and press ENTER." 
+        puts " "
+        puts "When you are done using the TeaLI, just type EXIT and press ENTER."
+        puts "- - - - - - - - - - - - - - - "
     end 
 
     def surprise_tea 
@@ -72,10 +83,17 @@ class TeaLI
         self.display_tea_info(surprise)
     end 
 
+    def 
+
+    def call 
+       start_options
+
+
+
+    end 
+
 end 
 
 tea_CLI = TeaLI.new 
-tea_CLI.info_for_one_tea('irish breakfast')
-tea_CLI.display_tea_info('irish breakfast')
-
+tea_CLI.display_options 
 
