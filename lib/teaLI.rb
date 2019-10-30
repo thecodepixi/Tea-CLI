@@ -29,6 +29,7 @@ class TeaLI
         puts "Which type of teas would you like to see?"
         puts "(Ex: Type 'Black Teas' and press ENTER) "
         puts "(to go back type 'back' and press ENTER)"
+        puts "(to exit TeaLI, type 'exit' and press ENTER)"
     end  
     
     def display_tea_info(tea_name)
@@ -100,36 +101,37 @@ class TeaLI
         self.display_tea_info(surprise)
     end 
 
-    def run_categories
-        display_categories
-        user_input = nil 
+    # def run_categories
+    #     display_categories
+    #     user_input = nil 
+    #     while user_input != 'exit'
+    #         user_input = gets.strip.downcase 
 
-        user_input = gets.strip.downcase 
+    #         if user_input == 'back'
+    #             call 
+    #         end 
 
-            if user_input == 'back'
-                call 
-            end 
-
-            if Category.all.include?(titleize(user_input))
-                display_category_teas(user_input)
-            else 
-                puts "Please choose one of the available tea types."
-                run_categories
-            end 
+    #         if Category.all.include?(titleize(user_input))
+    #             display_category_teas(user_input)
+    #         else 
+    #             puts " "
+    #             puts "Please choose one of the available tea types."
+    #             puts " "
+    #             run_categories
+    #         end 
             
-            user_input = gets.strip.downcase
+    #         user_input = gets.strip.downcase
 
-            if user_input == 'back'
-                run_categories 
-            end 
+    #         if user_input == 'back'
+    #             run_categories 
+    #         end 
 
-            info_for_one_tea(user_input)
+    #         info_for_one_tea(user_input)
 
-            display_tea_info(user_input)
-
-        end_of_method_options
-        
-    end 
+    #         display_tea_info(user_input)
+    #     end 
+    #     goodbye 
+    # end 
 
     def run_all_info_search 
         puts " "
@@ -175,15 +177,16 @@ class TeaLI
     end 
 
     def end_of_method_options 
-        puts "Now what would you like to do?"
-        puts " "
-        puts "To return to the main menu, type 'menu'"
-        puts "To exit, type 'exit'"
-        puts "Press ENTER after typing your selection..."
-        
-        user_input = gets.strip.downcase
+        user_input = nil 
 
         while user_input != 'exit' 
+            puts "Now what would you like to do?"
+                puts " "
+                puts "To return to the main menu, type 'menu'"
+                puts "To exit, type 'exit'"
+                puts "Press ENTER after typing your selection..."
+                
+            user_input = gets.strip.downcase
             if user_input == 'menu'
                 call 
             elsif user_input != 'menu' && user_input.downcase != 'exit' 
@@ -199,9 +202,7 @@ class TeaLI
             start_options
             user_input = gets.strip.downcase
             if user_input.to_i == 1 
-                # run_categories
-                puts "you picked 1"
-                call
+                run_categories
             elsif user_input.to_i == 2 
                 # run_all_info_search
                 # run_ingredient_search
