@@ -52,6 +52,9 @@ class TeaLI
         category_teas.each_with_index do |tea, index|
             puts "  #{index+1}. #{titleize(tea.name)}"
         end 
+        puts " "
+        puts "Which tea would you like to know more about?"
+        puts " "
     end 
 
     def info_for_one_tea(tea)
@@ -83,17 +86,30 @@ class TeaLI
         self.display_tea_info(surprise)
     end 
 
-    def 
+    def run_categories
+        display_categories
+
+        user_input = gets.chomp 
+
+        display_category_teas(user_input)
+
+        user_input = gets.chomp 
+
+        info_for_one_tea(user_input.downcase)
+
+        display_tea_info(user_input.downcase)
+    end 
 
     def call 
-       start_options
-
-
-
+        start_options
+        user_input = gets.chomp 
+        if user_input.to_i == 1 
+            run_categories
+        end 
     end 
 
 end 
 
 tea_CLI = TeaLI.new 
-tea_CLI.display_options 
+tea_CLI.call 
 
