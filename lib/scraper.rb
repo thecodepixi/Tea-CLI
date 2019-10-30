@@ -15,7 +15,7 @@ class Scraper
     def get_categories
         page = get_page("https://www.adagio.com/list/best_sellers.html")
         page.css("div#accountNav.marginLeft.categoryLeft div.hide_768").each do |category|
-            if category.values != ["breakVerySmall hide_768"] && category.css("a").text != "Advanced Search" && Category.all.length < 11 
+            if category.values != ["breakVerySmall hide_768"] && category.css("a").text != "Advanced Search" && Category.all.length < 10 
             category_name = category.css("a").text
             category_url = category.css("a").attribute("href").value
             new_category = Category.new(category_name)
