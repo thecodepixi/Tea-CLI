@@ -102,24 +102,30 @@ class TeaLI
 
     def run_categories
         display_categories
+        user_input = nil 
 
-        user_input = gets.chomp 
+        user_input = gets.strip.downcase 
 
-            if user_input.downcase == 'back'
+            if user_input == 'back'
                 call 
             end 
 
-            display_category_teas(user_input)
+            if Category.all.include?(titleize(user_input))
+                display_category_teas(user_input)
+            else 
+                puts "Please choose one of the available tea types."
+                run_categories
+            end 
             
-            user_input = gets.chomp 
+            user_input = gets.strip.downcase
 
-            if user_input.downcase == 'back'
+            if user_input == 'back'
                 run_categories 
             end 
 
-            info_for_one_tea(user_input.downcase)
+            info_for_one_tea(user_input)
 
-            display_tea_info(user_input.downcase)
+            display_tea_info(user_input)
 
         end_of_method_options
         
@@ -175,12 +181,12 @@ class TeaLI
         puts "To exit, type 'exit'"
         puts "Press ENTER after typing your selection..."
         
-        user_input = gets.chomp 
+        user_input = gets.strip.downcase
 
-        while user_input.downcase != 'exit' 
-            if user_input.downcase == 'menu'
+        while user_input != 'exit' 
+            if user_input == 'menu'
                 call 
-            elsif user_input != 'menu' && user_input != 'exit' 
+            elsif user_input != 'menu' && user_input.downcase != 'exit' 
                 puts "Please choose a valid option..."
                 end_of_method_options 
             end 
@@ -188,15 +194,24 @@ class TeaLI
     end 
 
     def call 
-        start_options
-        user_input = gets.chomp 
-        while user_input.downcase != 'exit'
+        user_input = nil
+        while user_input != 'exit'
+            start_options
+            user_input = gets.strip.downcase
             if user_input.to_i == 1 
-                run_categories
+                # run_categories
+                puts "you picked 1"
+                call
             elsif user_input.to_i == 2 
-               run_all_info_search
-               run_ingredient_search
-            else 
+                # run_all_info_search
+                # run_ingredient_search
+                puts "you picked 2"
+                call
+            elsif user_input.to_i == 3 
+                # surprise_tea 
+                puts "you picked 3"
+                call
+            elsif  user_input.to_i != 1 && user_input.to_i != 2 && user_input.to_i != 3 && user_input != 'exit'
                 puts "oops, that's not a valid option!"
                 call 
             end 
