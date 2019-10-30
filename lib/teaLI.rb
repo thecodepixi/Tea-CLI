@@ -190,12 +190,15 @@ class TeaLI
     def call 
         start_options
         user_input = gets.chomp 
-        if user_input.downcase != 'exit'
+        while user_input.downcase != 'exit'
             if user_input.to_i == 1 
                 run_categories
             elsif user_input.to_i == 2 
                run_all_info_search
                run_ingredient_search
+            else 
+                puts "oops, that's not a valid option!"
+                call 
             end 
         end 
         goodbye
@@ -209,5 +212,3 @@ class TeaLI
 
 end 
 
-tea_CLI = TeaLI.new 
-tea_CLI.call 
