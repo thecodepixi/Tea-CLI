@@ -56,14 +56,19 @@ class TeaLI
     def display_category_teas(category)
         category_name = titleize(category)
         category_teas = Tea.all_teas_in(category_name)
-        puts "Here are all of our #{category}: "
-        category_teas.each_with_index do |tea, index|
-            puts "  #{index+1}. #{titleize(tea.name)}"
+        if category_teas.length > 0 
+            puts "Here are all of our #{category}: "
+            category_teas.each_with_index do |tea, index|
+                puts "  #{index+1}. #{titleize(tea.name)}"
+            end 
+            puts " "
+            puts "Which tea would you like to know more about?"
+            puts "(to go back type 'back' and press ENTER)"
+            puts " "
+        else
+            puts "Sorry that doesn't appear to be a valid category..."
+            display_categories
         end 
-        puts " "
-        puts "Which tea would you like to know more about?"
-        puts "(to go back type 'back' and press ENTER)"
-        puts " "
     end 
 
     def info_for_one_tea(tea)
@@ -100,8 +105,6 @@ class TeaLI
 
         user_input = gets.chomp 
 
-        while user_input.downcase != 'exit' 
-
             if user_input.downcase == 'back'
                 call 
             end 
@@ -118,32 +121,84 @@ class TeaLI
 
             display_tea_info(user_input.downcase)
 
-            puts "to go back to the main menu, type 'back' and hit ENTER"
-            puts "or to exit, type 'exit' and hit enter" 
+        end_of_method_options
         
-            user_input = gets.chomp 
+    end 
 
+    def run_all_info_search 
+        puts " "
+        puts "Great! Please wait while we gather some information. This will take less than 60 seconds..."
+        puts " "
+        @scraper.get_all_tea_info
+        puts " "
+        puts "Thanks for waiting!"
+    end 
+
+    def run_ingredient_search
+        puts " "
+        puts "What ingredient are you looking for?" 
+        puts "(to go back, please type 'back' and press ENTER)"
+        user_input = ''
+        user_input = gets.chomp 
             if user_input.downcase == 'back'
                 call 
+            else 
+                teas = Tea.find_by_ingredient(user_input.downcase)
+                if teas.length > 0 
+                    puts " "
+                    puts "Here are all the teas we have that contain #{user_input.downcase}"
+                    puts " "
+                        teas.each_with_index do |tea, index|
+                            puts "#{index+1}. #{titleize(tea.name)}"
+                        end 
+                    puts " "
+                    puts "Which tea would you like to know more about? (just type its name and press ENTER)"
+                    puts "or type 'Back' to search for a different ingredient..."
+                    user_input = gets.chomp 
+                    if user_input.downcase == 'back'
+                        run_ingredient_search
+                    else 
+                        display_tea_info(user_input.downcase)
+                    end 
+                else 
+                    puts "Sorry, it looks like we don't carry any teas with that ingredient"
+                    run_ingredient_search
+                end 
             end 
+        end_of_method_options
+    end 
 
-        end 
-
-        goodbye 
+    def end_of_method_options 
+        puts "Now what would you like to do?"
+        puts " "
+        puts "To return to the main menu, type 'menu'"
+        puts "To exit, type 'exit'"
+        puts "Press ENTER after typing your selection..."
         
+        user_input = gets.chomp 
+
+        while user_input.downcase != 'exit' 
+            if user_input.downcase == 'menu'
+                call 
+            elsif user_input != 'menu' && user_input != 'exit' 
+                puts "Please choose a valid option..."
+                end_of_method_options 
+            end 
+        end 
     end 
 
     def call 
         start_options
         user_input = gets.chomp 
-        while user_input.downcase != 'exit'
+        if user_input.downcase != 'exit'
             if user_input.to_i == 1 
                 run_categories
+            elsif user_input.to_i == 2 
+               run_all_info_search
+               run_ingredient_search
             end 
         end 
-
-        goodbye 
-
+        goodbye
     end 
 
     def goodbye 
@@ -156,4 +211,3 @@ end
 
 tea_CLI = TeaLI.new 
 tea_CLI.call 
-
