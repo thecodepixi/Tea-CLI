@@ -1,8 +1,4 @@
-require_relative "./tea.rb"
-
-require 'pry'
-require 'nokogiri'
-require 'open-uri'
+require_relative "../config/env"
 
 class Category
 

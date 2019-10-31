@@ -102,7 +102,7 @@ class TeaLI
             if Category.check_for_category(titleize(input))
                 display_category_teas(titleize(input))
                 puts " "
-                puts "Which tea would you like to know more about?"
+                puts "Which tea would you like to know more about? (just type its name and press ENTER)"
                 puts "(to go back type 'back' and press ENTER)"
                 puts " "
 
@@ -171,27 +171,6 @@ class TeaLI
                 end 
             end 
     end 
-
-    # def exit_options
-    #     user_input = nil 
-    #     puts "What would you like to do next?"
-    #     puts " "
-    #     puts "To return to the main menu, type 'menu'"
-    #     puts "To exit, type 'exit'"
-    #     puts "Press ENTER after typing your selection..."
-
-    #     until user_input == 'exit' 
-
-    #         user_input = gets.strip.downcase
-
-    #         if user_input == 'menu'
-    #             call 
-    #         elsif user_input != 'menu' && user_input != 'exit' 
-    #             puts "Please choose a valid option..."
-    #             exit_options 
-    #         end 
-    #     end 
-    # end 
 
     def call 
         puts " "
