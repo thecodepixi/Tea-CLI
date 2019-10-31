@@ -23,7 +23,7 @@ class Tea
     end 
 
     def self.find_by_name(name)
-        @@all.select {|tea| tea.name == name}
+        @@all.detect {|tea| tea.name == name}
     end 
 
     # checks whether or not we've already scraped the info about this particular tea object
@@ -46,3 +46,4 @@ class Tea
     end 
 
 end 
+

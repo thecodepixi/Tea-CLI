@@ -67,8 +67,8 @@ class Scraper
         # when we only need info about a single tea 
         # utilize check_for_tea_info and find_by_name here 
         tea = Tea.find_by_name(tea_name)
-        if !tea[0].check_for_tea_info 
-            get_tea_info(tea[0])
+        if !tea.check_for_tea_info 
+            get_tea_info(tea)
         end 
     end 
 
