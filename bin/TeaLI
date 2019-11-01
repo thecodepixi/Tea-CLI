@@ -2,4 +2,6 @@
 
 require_relative "../lib/teaLI.rb" 
 
+require 'TeaLI'
+
 TeaLI.new.call 

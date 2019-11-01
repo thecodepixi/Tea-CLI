@@ -1,4 +1,4 @@
-require_relative './scraper.rb'
+require_relative '../config/env.rb'
 
 require 'pry'
 

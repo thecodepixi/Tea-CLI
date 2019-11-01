@@ -1,4 +1,4 @@
-require_relative "../config/env"
+require_relative "../config/env.rb"
 
 class Tea 
 
