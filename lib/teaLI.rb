@@ -163,7 +163,13 @@ class TeaLI
                     if user_input == 'back'
                         run_ingredient_search
                     else 
-                        display_tea_info(user_input)
+                        tea = Tea.find_by_name(user_input)
+                        if tea == nil 
+                            puts "Sorry, it looks like that's not a valid tea choice, try again!"
+                            run_ingredient_search
+                        else 
+                            display_tea_info(user_input)
+                        end 
                     end 
                 else 
                     puts "Sorry, it looks like we don't carry any teas with that ingredient"
@@ -202,4 +208,5 @@ class TeaLI
 
 end 
 
+TeaLI.new.call 
 
